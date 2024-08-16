@@ -24,7 +24,7 @@
     justify-content: center;
     border-radius: 5px;
     transition: background-color 0.3s ease;
-    z-index: 1; /* Ensure screen is behind the image */
+    z-index: 1;
 }
 
 .radio_image {
@@ -47,7 +47,7 @@
     left: 35%;
     width: 30px;
     height: 25px;
-    z-index: 3; /* Ensure button is on top to be clickable */
+    z-index: 3;
     cursor: pointer;
 }
 
@@ -67,7 +67,7 @@
     margin-top: 210px;
     margin-right: 5px;
     cursor: pointer;
-    z-index: 3; /* Ensure arrow buttons are on top to be clickable */
+    z-index: 3;
 }
 
 .arrow_button {
