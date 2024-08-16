@@ -6,6 +6,8 @@
 
 This resource is a React and TypeScript-based radio system for qbox using Mantine v7. It allows players to connect to radio channels, adjust volume, and manage settings through an clean and simplistic UI. The project uses the GPL v3 license.
 
+This resource is built to work for the qbox framework. You can make it work with any framework if you do some changes to the backend.
+
 ![image](https://github.com/user-attachments/assets/72754ac2-2827-4d8f-bddd-744fbf1e6ee1)
 
 ## Usage
@@ -21,7 +23,7 @@ Use `pnpm dev` to run the development server and watch files during development.
 
 ### Production
 
-If you need to rebuild, run `pnpm build` to generate production-ready code.
+If you need to rebuild, run `pnpm build`.
 
 ## License
 
