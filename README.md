@@ -1,7 +1,7 @@
 # TS SCRIPTS - RADIO
 
 ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat)
-[![Chat](https://img.shields.io/discord/1272953408919310397?label=Chat)](https://discord.gg/UBnX997H6A)
+[![Discord](https://img.shields.io/discord/1272953408919310397?label=Chat)](https://discord.gg/UBnX997H6A)
 ![Static Badge](https://img.shields.io/badge/TS%20SCRIPTS)
 
 
