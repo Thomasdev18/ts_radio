@@ -1,8 +1,7 @@
 # TS SCRIPTS - RADIO
 
 ![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg?style=flat)
-![Discord](https://img.shields.io/discord/:1272953408919310397)
-![Static Badge](https://img.shields.io/badge/TS-Scripts)
+![Discord](https://img.shields.io/discord/1272953408919310397)
 
 
 This resource is a React and TypeScript-based radio system for qbox using Mantine v7. It allows players to connect to radio channels, adjust volume, and manage settings through an clean and simplistic UI. The project uses the GPL v3 license.
