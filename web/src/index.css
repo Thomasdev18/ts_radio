@@ -1,0 +1,33 @@
+/* @import url("https://use.typekit.net/wxh5ury.css"); */
+@import url("https://use.typekit.net/qgr5ebd.css");
+
+html {
+  color-scheme: normal !important;
+}
+
+body {
+  background: none !important;
+  margin: 0;
+  font-family: roboto-mono;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  user-select: none;
+  overflow: hidden !important;
+}
+
+p {
+  margin: 0;
+}
+
+#root {
+  height: 100%;
+}
+
+::-webkit-scrollbar {
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  width: 0;
+  height: 0;
+}

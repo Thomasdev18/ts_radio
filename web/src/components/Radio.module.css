@@ -1,0 +1,81 @@
+.app_container {
+    border-radius: 10px;
+    position: fixed;
+    top: 65%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    width: 550px;
+    height: 850px;
+    overflow: hidden;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.screen {
+    position: relative;
+    top: 17%;
+    right: 1%;
+    width: 138px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    z-index: 1; /* Ensure screen is behind the image */
+}
+
+.radio_image {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.screenOn {
+    background-color: lightgray;
+}
+
+.screenOff {
+    background-color: darkgray;
+}
+
+.power_button {
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    width: 30px;
+    height: 25px;
+    z-index: 3; /* Ensure button is on top to be clickable */
+    cursor: pointer;
+}
+
+.info_card {
+    width: 140px;
+    height: 100%;
+    margin-left: 2%;
+    text-align: center;
+    border-radius: 3px;
+    z-index: 2;
+    bottom: 4%;
+}
+
+.arrow_buttons_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 210px;
+    margin-right: 5px;
+    cursor: pointer;
+    z-index: 3; /* Ensure arrow buttons are on top to be clickable */
+}
+
+.arrow_button {
+    margin: 0 10px;
+}
+
+.additional_buttons_container {
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+}
