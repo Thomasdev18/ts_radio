@@ -23,17 +23,16 @@ import { useNuiEvent } from "../hooks/useNuiEvent";
 
 export default function Radio() {
   const [isOn, setIsOn] = useState(false);
-  const [selectedIcon, setSelectedIcon] = useState(0); // Track the selected icon
-  const [radioNumber, setRadioNumber] = useState(""); // Track the radio number input
-  const [currentChannel, setCurrentChannel] = useState<number | null>(null); // Store the current channel with correct type
-  const [currentScreen, setCurrentScreen] = useState("main"); // Track the current screen
+  const [selectedIcon, setSelectedIcon] = useState(0);
+  const [radioNumber, setRadioNumber] = useState("");
+  const [currentChannel, setCurrentChannel] = useState<number | null>(null);
+  const [currentScreen, setCurrentScreen] = useState("main");
 
   const togglePower = async () => {
     const newIsOn = !isOn;
     setIsOn(newIsOn);
     await fetchNui('powerButton');
     if (!newIsOn) {
-      // Reset the screen when the radio is turned off
       setCurrentScreen("main");
     }
   };
@@ -46,8 +45,7 @@ export default function Radio() {
 
     try {
       await fetchNui('connectToRadio', { channel });
-      setCurrentChannel(channel); // Update the current channel
-      // Set screen to radio on successful connection
+      setCurrentChannel(channel); 
       setCurrentScreen("main");
     } catch (error) {
       console.error('Failed to connect to radio channel:', error);
@@ -57,9 +55,9 @@ export default function Radio() {
   const leaveRadioChannel = async () => {
     try {
       await fetchNui('leaveRadio');
-      setCurrentChannel(null); // Clear the current channel
-      setRadioNumber(""); // Clear the radio number input
-      setCurrentScreen("main"); // Reset to main screen when leaving a channel
+      setCurrentChannel(null);
+      setRadioNumber("");
+      setCurrentScreen("main");
     } catch (error) {
       console.error('Failed to leave radio channel:', error);
     }
@@ -77,7 +75,7 @@ export default function Radio() {
   const volumeUp = async () => {
     try {
       await fetchNui('volumeUp');
-      await playSound('Next'); // Play sound when clicking right arrow
+      await playSound('Next');
     } catch (error) {
       console.error('Failed to increase volume:', error);
     }
@@ -86,7 +84,7 @@ export default function Radio() {
   const volumeDown = async () => {
     try {
       await fetchNui('volumeDown');
-      await playSound('Next'); // Play sound when clicking right arrow
+      await playSound('Next');
     } catch (error) {
       console.error('Failed to decrease volume:', error);
     }
@@ -95,7 +93,7 @@ export default function Radio() {
   const setMicClicks = async (value: boolean) => {
     try {
       await fetchNui('toggleClicks', { micClicks: value });
-      await playSound('Next'); // Play sound when clicking right arrow
+      await playSound('Next');
     } catch (error) {
       console.error('Failed to toggle mic clicks:', error);
     }
@@ -117,12 +115,12 @@ export default function Radio() {
 
   const handleLeftArrowClick = async () => {
     setSelectedIcon((prev) => (prev === 0 ? icons.length - 1 : prev - 1));
-    await playSound('Next'); // Play sound when clicking left arrow
+    await playSound('Next');
   };
   
   const handleRightArrowClick = async () => {
     setSelectedIcon((prev) => (prev === icons.length - 1 ? 0 : prev + 1));
-    await playSound('Next'); // Play sound when clicking right arrow
+    await playSound('Next');
   };
 
   const handleRadioNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -142,7 +140,7 @@ export default function Radio() {
   const handleConfirm = async () => {
     if (selectedIcon === 0) {
       if (radioNumber.trim() !== "") {
-        const channel = parseFloat(radioNumber); // Use parseFloat to handle decimal numbers
+        const channel = parseFloat(radioNumber);
         if (!isNaN(channel)) {
           await connectToRadioChannel(channel);
         } else {
@@ -156,7 +154,6 @@ export default function Radio() {
     }
   };
 
-  // Set radio number input when connected to a channel
   useEffect(() => {
     if (currentChannel !== null) {
       setRadioNumber(currentChannel.toString());
@@ -165,7 +162,6 @@ export default function Radio() {
 
   return (
     <Box className={classes.app_container}>
-      {/* Radio background image */}
       <Image 
         src="https://files.fivemerr.com/images/2fcbc905-abfa-401a-ad6e-b7415155c411.png" 
         alt="Radio Background" 
@@ -175,7 +171,6 @@ export default function Radio() {
         height="100%"
       />
       
-      {/* This is the screen that should be behind */}
       <Box
         className={classes.screen}
         style={{
@@ -187,7 +182,7 @@ export default function Radio() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          transition: 'background-color 0.3s ease', // Optional smooth transition
+          transition: 'background-color 0.3s ease',
         }}
       >
         {isOn && currentScreen === "main" && (
@@ -200,7 +195,7 @@ export default function Radio() {
                 justifyContent: 'center',
                 alignItems: 'center',
                 marginRight: '15px',
-                zIndex: 4 // Ensure screen is behind the image
+                zIndex: 4
               }}
               gutter="xs"
             >
@@ -213,7 +208,7 @@ export default function Radio() {
                     justifyContent: 'center', 
                     alignItems: 'center',
                     borderRadius: '50%',
-                    zIndex: 4 // Ensure screen is behind the image
+                    zIndex: 4
                   }}
                 >
                   <ActionIcon 
@@ -264,10 +259,8 @@ export default function Radio() {
         )}
       </Box>
 
-      {/* The overlays for the interactive parts */}
       <Button className={classes.power_button} variant="transparent" color="teal" onClick={togglePower} style={{ zIndex: 3 }} />
 
-      {/* Arrow buttons under the screen */}
       <Box className={classes.arrow_buttons_container} style={{ zIndex: 3 }}>
         <Tooltip label="Previous" bg="dark" color="light">
           <Button variant="transparent" color="teal" size="xs" onClick={handleLeftArrowClick} className={classes.arrow_button}>
@@ -279,7 +272,6 @@ export default function Radio() {
         </Tooltip>
       </Box>
 
-      {/* New buttons under the arrow buttons */}
       <Box className={classes.additional_buttons_container} style={{ zIndex: 3, display: 'flex', justifyContent: 'space-between', margin: '0 10px' }}>
         <Tooltip label="Confirm" bg="dark" color="light">
           <Button variant="transparent" color="blue" size="xs" style={{margin: '0 45px' }} onClick={handleConfirm}>
@@ -287,12 +279,11 @@ export default function Radio() {
         </Tooltip>
         <Tooltip label="Leave" bg="dark" color="light">
           <Button variant="transparent" color="blue" size="xs" style={{margin: '0 40px' }} onClick={() => {
-              // Handle leave logic for both channel and settings screen
               if (currentScreen === "settings") {
-                setCurrentScreen("main"); // Go back to the main menu
-                playSound('Next'); // Play sound when clicking right arrow
+                setCurrentScreen("main");
+                playSound('Next');
               } else {
-                leaveRadioChannel(); // Leave the radio channel
+                leaveRadioChannel();
               }
             }}>
           </Button>
