@@ -17,11 +17,18 @@ end
 
 -- Play audio
 local playAudio = function(audioName, audioRef)
-  qbx.playAudio({
-    audioName = audioName,
-    audioRef = audioRef,
-    source = cache.ped
-  })
+  local source = cache.ped
+  local soundId = GetSoundId()
+
+  local sourceType = type(source)
+  if sourceType == 'number' then
+      PlaySoundFromEntity(soundId, audioName, source, audioRef, false, false)
+  else
+      PlaySoundFrontend(soundId, audioName, audioRef, true)
+  end
+
+
+  ReleaseSoundId(soundId)
 end
 
 -- Connect to a specific radio channel
@@ -216,9 +223,8 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
   exports['pma-voice']:setVoiceProperty("micClicks", true)
 end)
 
--- Reset state on player unload
-RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
-  powerButton()
+RegisterNetEvent('esx:playerLoaded', function()
+  exports['pma-voice']:setVoiceProperty("micClicks", true)
 end)
 
 -- Check radio item count
@@ -233,6 +239,12 @@ end)
 if Config.leaveOnDeath then
   AddStateBagChangeHandler('isDead', ('player:%s'):format(cache.serverId), function(_, _, value)
     if value and onRadio and radioChannel ~= 0 then
+      leaveRadio()
+    end
+  end)
+
+  AddEventHandler('esx:onPlayerDeath', function(data)
+    if onRadio and radioChannel ~= 0 then
       leaveRadio()
     end
   end)
