@@ -6,6 +6,7 @@ Config.maxFrequency = 999
 Config.leaveOnDeath = true
 Config.decimalPlaces = 2
 Config.radioMenuSound = true
+Config.scullyEmoteMenu = false
 
 Config.restrictedChannels = {
     [1] = {
