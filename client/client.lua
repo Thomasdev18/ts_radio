@@ -9,6 +9,7 @@ local inChannel = false
 local radioVolume = 50
 local radioChannel = 0
 local micClicks = true
+local framework
 
 -- Notify user
 local notifyUser = function(description, type)
@@ -79,7 +80,15 @@ end
 
 -- Handle animations
 local Anim = function(emote)
-  exports.scully_emotemenu:playEmoteByCommand(emote)
+  if Config.scullyEmoteMenu then 
+    exports.scully_emotemenu:playEmoteByCommand(emote)
+  end
+end
+
+local roundMath = function(num, decimalPlaces)
+    if not decimalPlaces then return math.floor(num + 0.5) end
+    local power = 10 ^ decimalPlaces
+    return math.floor((num * power) + 0.5) / power
 end
 
 -- NUI callback functions
@@ -87,7 +96,9 @@ end
 -- Hide UI and cancel emote
 local hideUI = function(_, cb)
   ShowNUI(false)
-  exports.scully_emotemenu:cancelEmote()
+  if Config.scullyEmoteMenu then 
+    exports.scully_emotemenu:cancelEmote()
+  end
   cb('ok')
 end
 
@@ -100,6 +111,7 @@ local toggleRadioPower = function(data, cb)
   cb('ok')
 end
 
+
 -- Connect to radio callback
 local connectToRadioCallback = function(data, cb)
   if not onRadio then return cb('ok') end
@@ -110,7 +122,7 @@ local connectToRadioCallback = function(data, cb)
     return cb('ok')
   end
 
-  rchannel = qbx.math.round(rchannel, Config.decimalPlaces)
+  rchannel = roundMath(rchannel, Config.decimalPlaces)
 
   if rchannel == radioChannel then
     notifyUser("You're already connected to this channel", 'error')
@@ -118,7 +130,7 @@ local connectToRadioCallback = function(data, cb)
   end
 
   local frequency = not Config.whitelistSubChannels and math.floor(rchannel) or rchannel
-  if Config.restrictedChannels[frequency] and (not Config.restrictedChannels[frequency][QBX.PlayerData.job.name] or not QBX.PlayerData.job.onduty) then
+  if Config.restrictedChannels[frequency] and (not isRestricted(Config.restrictedChannels[frequency])) then
     notifyUser("You cannot connect to this channel", 'error')
     return cb('ok')
   end
@@ -249,3 +261,25 @@ if Config.leaveOnDeath then
     end
   end)
 end
+
+
+AddEventHandler('onResourceStart', function(resource)
+  if resource ~= cache.resource then return end
+
+  local esx = GetResourceState('es_extended')
+  local qbx = GetResourceState('qbx_core')
+  framework = esx == 'started' and 'ESX' or qbx == 'started' and 'QBX' or nil
+
+  if not framework then error('Unable to detect framework - Compatible with ESX & QBX') end
+
+  local ESX = exports.es_extended:getSharedObject()
+
+  function isRestricted(restrictedChannels)
+    if framework == 'QBX' then 
+      return restrictedChannels[QBX.PlayerData.job.name] or not QBX.PlayerData.job.onduty
+    else 
+      ESX.PlayerData = ESX.GetPlayerData()
+      return restrictedChannels[ESX.PlayerData.job.name]
+    end
+  end
+end)
